@@ -1,0 +1,19 @@
+idea:
+  title: LLMs Don't Do Much ToM in Writing
+  domain: artificial_intelligence
+  hypothesis: One of the reasons LLMs write annoyingly is that they don't seem to
+    think of the audience in a vague way. I bet have the model manually simulate the
+    audience in its CoT every sentence or so would help a lot.
+  background:
+    description: One of the reasons LLMs write annoyingly is that they don't seem
+      to think of the audience in a vague way. I bet have the model manually simulate
+      the audience in its CoT every sentence or so would help a lot.
+  metadata:
+    source: IdeaHub
+    source_url: https://hypogenic.ai/ideahub/idea/LpTXdOL1sSqjyqLWxGCU
+    author: Ari Holtzman
+    idea_id: llms_don_t_do_much_tom_in_writ_20260714_234243_6b6ff0f4
+    created_at: '2026-07-14T23:42:43.048025'
+    status: submitted
+    github_repo_name: llms_don_t_do_much_tom_in_writ_20260714_234243_6b6ff0f4
+    github_repo_url: https://github.com/Hypogenic-AI/llms_don_t_do_much_tom_in_writ_20260714_234243_6b6ff0f4
