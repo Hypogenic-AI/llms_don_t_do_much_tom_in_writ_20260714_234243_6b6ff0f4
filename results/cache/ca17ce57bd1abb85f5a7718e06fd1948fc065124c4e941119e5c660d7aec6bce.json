@@ -1,0 +1,1 @@
+{"content": "```json\n{\n  \"winner\": \"A\",\n  \"reason\": \"Piece A directly addresses the task with depth and specific molecular mechanisms, while Piece B is a meta-description of the target audience rather than an explanation of mRNA function.\"\n}\n```", "model": "google/gemini-2.5-flash", "temperature": 0.0}

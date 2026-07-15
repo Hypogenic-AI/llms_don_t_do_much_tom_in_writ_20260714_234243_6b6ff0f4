@@ -1,0 +1,1 @@
+{"content": "```json\n{\n  \"winner\": \"A\",\n  \"reason\": \"Piece A uses more relatable language and a helpful analogy ('Imagine a big ball...') without getting bogged down in technical definitions, making it easier to grasp for someone without a scientific background.\"\n}\n```", "model": "google/gemini-2.5-flash", "temperature": 0.0}

@@ -1,0 +1,1 @@
+{"content": "```json\n{\n  \"winner\": \"A\",\n  \"reason\": \"Piece A uses a fun, consistent analogy that makes it easy to understand, while Piece B is a bit confusing with its back-and-forth dialogue.\"\n}\n```", "model": "google/gemini-2.5-flash", "temperature": 0.0}

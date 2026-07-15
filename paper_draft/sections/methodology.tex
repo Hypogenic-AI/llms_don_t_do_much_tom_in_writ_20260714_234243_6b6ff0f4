@@ -1,0 +1,87 @@
+\section{Methodology}
+\label{sec:method}
+
+\para{Research question and hypotheses.} We ask whether having an LLM simulate the target reader
+in its chain-of-thought roughly once per sentence produces writing that is (i) better fit to that
+reader, (ii) higher in overall quality, and (iii) more genuinely adapted to the reader, compared
+to plain generation, a token-matched generic reasoning control, and one-shot audience modeling. We
+decompose this into five pre-registered hypotheses: \textbf{H1} (audience fit): \persentence
+beats all baselines on a separate reader model's fit rating; \textbf{H2} (quality): \persentence
+beats baselines on a cross-family quality judge; \textbf{H3} (adaptation): \persentence shows the
+largest audience-adaptation gap; \textbf{H4} (not just tokens): \persentence beats generic
+reasoning despite both adding thinking tokens; \textbf{H5} (diversity/cost): \persentence reduces
+generic sameness at acceptable cost. The independent variable is the generation \emph{condition};
+dependent variables are audience-fit score, pairwise quality win-rate, adaptation gap, diversity
+metrics, and length/token cost.
+
+\subsection{Task set}
+
+We use \textbf{audience-targeted writing}, the sharpest test of audience modeling, comprising 60
+tasks. \textbf{48 explanatory} tasks pair a concept with a specific reader: ``Explain
+\{concept\} for \{audience\}'' in roughly 150 words. Twelve concepts span science, finance, and
+technology (vaccines, compound interest, black holes, how an LLM generates text, antibiotic
+resistance, blockchain, seasons, mRNA, the stock market, encryption, photosynthesis, greenhouse
+warming), crossed with four audiences that vary in expertise and disposition: \textbf{an
+8-year-old child}, \textbf{a non-technical executive}, \textbf{a PhD-level expert}, and \textbf{a
+skeptic who distrusts the topic}. \textbf{12 creative} tasks draw prompts from
+\writingprompts~\citep{fan2018writingprompts} with an assigned target readership, for breadth.
+
+\subsection{Conditions}
+
+The only manipulation is \emph{how the model reasons about the reader}; crucially, every
+condition is given identical information about who the reader is, so any difference is
+attributable to the reasoning strategy rather than to privileged audience information. Generation
+uses a clean two-step protocol---a reasoning turn, then a ``write ONLY the final piece'' turn---so
+the judged text never contains chain-of-thought scaffolding.
+
+\begin{itemize}[leftmargin=*,itemsep=1pt,topsep=2pt]
+    \item \plain: no reasoning turn---write directly (the ``annoying'' egocentric default).
+    \item \cot: ``think step by step to make it excellent'' (generic reasoning;
+    \textbf{token-matched control} that isolates audience simulation from added
+    thinking tokens).
+    \item \simtom: describe the reader once (background, knowledge, what they care about, tone),
+    then write.
+    \item \persentence \textit{(intervention)}: plan sentence by sentence; after each sentence,
+    simulate how \emph{this reader} reacts (confused, bored, skeptical, curious), then choose the
+    next sentence.
+\end{itemize}
+
+\subsection{Models}
+
+We deliberately keep the generator and both judges in \textbf{different model families} to avoid
+self-preference and shortcut inflation~\citep{shapira2023clever}. The \textbf{generator} is
+\gptmini (primary) with \llama for replication. The \textbf{quality judge} is \claude, used for
+blind, order-balanced pairwise comparison. The \textbf{audience/listener model} is \gemini, which
+\emph{role-plays the target reader} to give absolute fit, understanding, and engagement ratings
+($1$--$10$) and pairwise ``which serves this reader better'' judgments, following communication-based
+evaluation~\citep{fried2023pragmatics}. All calls run through OpenRouter with a fixed seed of 42.
+
+\subsection{Evaluation metrics}
+
+\begin{enumerate}[leftmargin=*,itemsep=1pt,topsep=2pt]
+    \item \textbf{Audience fit / understanding / engagement}: the audience model, role-playing the
+    reader, rates each piece $1$--$10$.
+    \item \textbf{Overall writing quality}: the cross-family judge compares pairs blind, in both
+    orders, controlling for position bias; we report win-rate (0.5 = tie).
+    \item \textbf{Adaptation gap} (the H3 control): each concept is written for a \emph{child} and
+    for an \emph{expert}; both readers rate both pieces. The gap is $\text{matched} -
+    \text{crossed}$ fit. A method that truly tailors to the reader scores high for its intended
+    reader and low for the other, yielding a large gap; a generic-quality method yields a gap near
+    zero. This isolates real audience use from a generic quality boost.
+    \item \textbf{Homogenization}: distinct-2 and self-BLEU computed within each condition.
+    \item \textbf{Cost}: output length in words and reasoning (``thinking'') characters.
+\end{enumerate}
+
+\subsection{Protocol and reproducibility}
+
+Generation uses temperature $0.7$; judging uses temperature $0.0$; the seed is $42$ throughout.
+Every model call is disk-cached by a hash of (model, messages, params), so the pipeline is fully
+reproducible and re-runs are free. In total we ran $240$ primary generations, $192$ replication
+generations, and roughly $1{,}400$ judge calls, yielding $3{,}876$ cached responses at an estimated
+API cost of \$8--15. For statistics we use paired designs across tasks: Wilcoxon signed-rank tests
+on paired differences, bootstrap $95\%$ confidence intervals for win-rates (against a null of
+$0.5$) and mean differences, Cohen's $d$ / rank-biserial effect sizes, and
+Holm--Bonferroni correction~\citep{holm1979simple} across the multiple condition comparisons, at
+$\alpha = 0.05$. An initial marker-based text extractor leaked audience-analysis preamble into
+about $23\%$ of \simtom pieces; we replaced it with the two-step protocol (zero leaks) and re-ran
+everything, so all reported numbers come from the clean pipeline.

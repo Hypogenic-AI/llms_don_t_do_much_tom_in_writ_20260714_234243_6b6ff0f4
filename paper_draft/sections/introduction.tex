@@ -1,0 +1,81 @@
+\section{Introduction}
+\label{sec:intro}
+
+Large language models write fluently, yet their prose is often flat and generic---polished
+sentences that read as if written for no one in particular. A common diagnosis is that the model
+fails to model its reader: it produces text that is locally correct but pitched at a default,
+average audience rather than the specific person who will read it. If this diagnosis is right,
+there is an appealing, cheap fix. Rather than fine-tune the model, we could simply ask it, in its
+chain-of-thought, to \emph{simulate the reader}---and to do so continuously, roughly once per
+sentence, so that each next sentence is chosen against a fresh prediction of how the reader is
+reacting: confused, bored, skeptical, or curious. This is an inference-time, prompt-only
+intervention that anyone could apply. \emph{Does it work?}
+
+\para{Why this matters.} Writing quality is a pervasive, high-value problem for LLMs used as
+assistants, tutors, and technical communicators. If verbalizing an incremental,
+per-sentence audience simulation genuinely improved writing, it would be an unusually cheap win:
+no training, no reward model, no external listener---just a better prompt. The intuition also has
+strong roots. The pragmatics literature shows that speakers who model their listener communicate
+more successfully~\citep{andreas2016reasoning,fried2023pragmatics,takmaz2023speaking}, and the
+Theory of Mind (\tom) literature shows that default LLM social reasoning is
+brittle~\citep{ullman2023large,shapira2023clever}, suggesting that an explicit modeling step might
+help.
+
+\para{The gap.} Despite this, the exact intervention has never been tested for writing. Every
+prior audience-aware method places the audience model \emph{outside} the generator's own
+reasoning: a decode-time gradient~\citep{takmaz2023speaking}, a rerank by a separately trained
+listener~\citep{andreas2016reasoning,coderesa2025}, an external
+reward~\citep{styleinfusion2023}, or a formal belief update~\citep{crsa2025}. Per-sentence
+mental-state simulation \emph{inside} natural-language chain-of-thought exists only for
+comprehension QA and dialogue~\citep{perceptom2024,thoughttracing2025,tomagent2025}, never for
+open-ended writing quality. Meanwhile, \citet{chakrabarty2025aislop} show that generic reasoning
+does \emph{not} improve writing quality---so a gain from an \emph{audience-specific}
+chain-of-thought would be a genuinely non-trivial result, and any claimed gain must be isolated
+from ``more thinking tokens.''
+
+\para{Our approach.} We run the first direct test of the intervention (\secref{sec:method}). We
+build 60 audience-targeted writing tasks---explaining a concept to an 8-year-old, a non-technical
+executive, a PhD expert, or a skeptic, plus creative stories with an assigned readership---and
+generate each under four conditions that differ \emph{only} in how the model reasons about the
+reader: \plain (write directly), \cot (generic ``think step by step,'' a token-matched control),
+\simtom (describe the reader once, then write), and \persentence (the intervention: plan
+sentence by sentence, and after each sentence simulate how this reader reacts, then choose the
+next). Every condition is told exactly who the reader is, so any difference is attributable to
+the \emph{reasoning strategy}, not to privileged audience information. We judge only clean final
+text with two separate, cross-family models---one role-playing the reader for audience fit, one
+scoring overall quality by blind pairwise comparison---and add an adaptation-gap control that
+measures whether a method \emph{actually uses} the audience rather than just writing well in
+general.
+
+\para{What we find.} The specific hypothesis is refuted, but its underlying intuition is
+vindicated. Audience modeling does help---but a single, rich audience model written once up front
+(\simtom) is the clear winner on every metric, at lower cost. The proposed per-sentence
+simulation is the worst or near-worst condition: it loses pairwise on overall quality to
+\emph{all three} baselines (win-rates $0.083$--$0.250$, all $p<0.001$ after Holm correction),
+scores lowest on engagement and audience fit, shows \emph{no} better audience adaptation (in fact
+the smallest adaptation gap, $6.04$ vs.\ \simtom's $7.00$), does not reduce homogenization, and
+is the longest ($170$ words vs.\ $147$) and most token-expensive condition. The ordering
+replicates with a completely different generator (\llama). The takeaway is blunt: \emph{``think
+about the reader'' helps writing; ``re-simulate the reader every sentence'' hurts it.}
+
+\para{Contributions.}
+\begin{itemize}[leftmargin=*,itemsep=0pt,topsep=0pt]
+    \item We give the first direct, controlled test of per-sentence audience simulation in
+    chain-of-thought for open-ended writing, isolating it from a token-matched generic-reasoning
+    control and from privileged audience information.
+    \item We show the intervention \emph{backfires}: it loses on overall quality to plain
+    generation, generic reasoning, and one-shot audience modeling, and---via an adaptation-gap
+    control---adapts to the reader \emph{less}, not more, than a one-shot audience model.
+    \item We show the intuition behind it is nonetheless correct: one-shot audience modeling
+    (\simtom) is the best condition on audience fit, engagement, adaptation, and diversity, at
+    lower token cost, identifying \emph{granularity} as the key design axis.
+    \item We replicate the full ordering across two generator families and release all $3{,}876$
+    cached generations and judgments for reproducibility.
+\end{itemize}
+
+\para{Organization.} \secref{sec:related} positions our work in pragmatics, \tom, and
+writing-quality research. \secref{sec:method} describes the tasks, conditions, models, and
+metrics. \secref{sec:results} reports the main comparison, the adaptation-gap control,
+homogenization and cost, and the cross-family replication. \secref{sec:discussion} interprets
+\emph{why} per-sentence simulation hurts and discusses limitations, and \secref{sec:conclusion}
+concludes.

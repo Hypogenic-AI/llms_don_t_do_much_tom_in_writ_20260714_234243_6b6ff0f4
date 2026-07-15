@@ -1,0 +1,1 @@
+{"content": "```json\n{\n  \"winner\": \"A\",\n  \"reason\": \"Piece A is better because its language is more precise and uses advanced terminology without over-explaining fundamental concepts, directly addressing a PhD-level expert's need for depth and nuance.\"\n}\n```", "model": "google/gemini-2.5-flash", "temperature": 0.0}

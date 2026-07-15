@@ -1,0 +1,20 @@
+{
+  "seed": 42,
+  "gen_temperature": 0.7,
+  "judge_temperature": 0.0,
+  "generator_primary": "openai/gpt-4.1-mini",
+  "generator_replication": "meta-llama/llama-3.3-70b-instruct",
+  "quality_judge": "anthropic/claude-sonnet-4.5",
+  "audience_model": "google/gemini-2.5-flash",
+  "n_tasks": 60,
+  "conditions": [
+    "plain",
+    "cot",
+    "simtom",
+    "persentence"
+  ],
+  "python": "3.12.8",
+  "numpy": "2.5.1",
+  "scipy": "1.18.0",
+  "openai": "2.45.0"
+}

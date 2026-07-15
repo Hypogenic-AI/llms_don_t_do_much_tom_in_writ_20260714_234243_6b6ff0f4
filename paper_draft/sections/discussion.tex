@@ -1,0 +1,58 @@
+\section{Discussion}
+\label{sec:discussion}
+
+\para{The direction of the intuition is right; the mechanism is wrong.} Audience modeling clearly
+helps: both \cot and \simtom beat \plain, and \simtom---an explicit one-shot audience model---is
+the best condition on \emph{every} metric, including the adaptation-gap control that specifically
+measures genuine audience use. So the premise that LLMs write generically partly because they
+model the reader weakly is supported. What fails is the specific proposed fix. Simulating the
+reader every sentence does not just add nothing; it actively backfires, dragging the writing below
+even plain generation on overall quality.
+
+\para{Why does per-sentence simulation hurt?} Three mechanisms are visible in the outputs.
+\emph{First, local reactivity destroys global craft.} Choosing each next sentence from the
+reader's momentary reaction yields prose that is locally coherent but loses arc, voice, and payoff.
+In one children's-story task, \simtom builds a whimsical arc with a delightful closing button
+(``Death's Help Desk: Making Life Interesting Since Forever''), whereas the per-sentence version
+stays plot-mechanical, keeps an adult phrase (``living forever sucks''), and drifts into heavier
+themes (``watching everyone I loved grow old and leave'')---each next sentence locally reasonable,
+the whole globally off-key for a child. \emph{Second, it adapts less, not more}
+(\secref{sec:res-adapt}). A single rich audience model front-loads a coherent stance---``this is a
+scared 8-year-old: stay warm, concrete, gentle''---that governs the entire piece, whereas
+per-sentence reactions are noisier and pull the text in inconsistent directions, washing out
+adaptation. \emph{Third, bloat.} The intervention runs about $15\%$ longer and spends the most
+thinking tokens, yet yields worse writing---the opposite of the token-for-quality trade the
+hypothesis assumed.
+
+\para{Granularity is the key axis.} Our result directly echoes and extends
+\citet{chakrabarty2025aislop}'s finding that more reasoning does not improve writing: even
+\emph{audience-specific} reasoning fails to help when applied at fine (per-sentence) granularity,
+while a coarse, one-shot audience model does help. The sweet spot is ``model the reader once,
+richly,'' not ``re-model every sentence.'' This isolates granularity---rather than the presence or
+absence of audience modeling---as the design variable that decides whether audience reasoning
+helps or fragments the prose.
+
+\para{Validity.} Several safeguards make the negative result credible. The judges are in different
+families from the generators, so self-preference cannot explain the ranking; pairwise judging is
+blind and order-balanced against position bias; only clean final text is judged, after a two-step
+protocol eliminated a real scaffolding-leak bug we caught mid-study (\secref{sec:method}); the
+adaptation-gap control rules out a generic-quality confound; and the full ordering replicates
+across two generators. The effect sizes are large (win-rates as low as $0.083$) and consistent,
+not marginal.
+
+\para{Limitations.} We test a single granularity---``every sentence.'' An intermediate granularity
+(per-paragraph, or once-then-one-revision-pass) might recover a benefit; we did not sweep it. Fit
+and quality come from LLM judges rather than humans; although the judges are cross-family and the
+effect is large and replicated, a small human evaluation would strengthen the quality claim. The
+result also bounds \emph{one} careful, faithful phrasing of the per-sentence prompt, not every
+conceivable one. We study short-form writing ($\sim$150 words), where global consistency is easy
+to maintain without per-sentence tracking; the intervention might matter more for long documents.
+Finally, our task set is 60 tasks (48 for replication); paired tests and bootstrap intervals
+mitigate this, but larger, more diverse task sets would tighten the estimates.
+
+\para{Broader implications.} For practitioners, the actionable takeaway is simple and cheap:
+prompt the model to build one rich picture of the reader before writing, and do not ask it to
+re-simulate the reader sentence by sentence. More broadly, the result is a caution against
+importing scaffolds that help \emph{comprehension} (where per-sentence perspective tracking is
+known to help~\citep{perceptom2024}) directly into \emph{generation}, where global structure is
+part of the quality being measured.

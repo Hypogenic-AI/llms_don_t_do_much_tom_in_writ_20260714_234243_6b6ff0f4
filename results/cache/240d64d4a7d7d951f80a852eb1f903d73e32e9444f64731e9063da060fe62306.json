@@ -1,0 +1,1 @@
+{"content": "```json\n{\n  \"winner\": \"A\",\n  \"reason\": \"Piece A provides a more precise and quantitatively grounded explanation, using terms like 'isotropically' and specific radiative forcing values, which aligns better with a PhD-level expert's desire for depth and exactitude.\"\n}\n```", "model": "google/gemini-2.5-flash", "temperature": 0.0}

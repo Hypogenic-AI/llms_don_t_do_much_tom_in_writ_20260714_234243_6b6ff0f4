@@ -1,0 +1,13 @@
+Resource finding phase completed successfully.
+Timestamp: 2026-07-14T23:58:16+00:00
+Research: LLMs Don't Do Much ToM in Writing
+Papers downloaded: 14
+Datasets: 6 (2 downloaded to datasets/, 4 bundled in cloned repos)
+Repositories cloned: 4
+
+Deliverables:
+- papers/ (14 PDFs) + papers/README.md
+- datasets/ + datasets/README.md + datasets/.gitignore
+- code/ (4 repos) + code/README.md
+- literature_review.md
+- resources.md

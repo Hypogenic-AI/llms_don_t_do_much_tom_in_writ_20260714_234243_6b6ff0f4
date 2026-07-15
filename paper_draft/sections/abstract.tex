@@ -1,0 +1,19 @@
+Large language models often write in a fluent-but-generic voice, as if pitched at no one in
+particular. A natural explanation is that they model the reader too weakly, and a natural fix is
+to force the model to simulate the reader inside its own chain-of-thought---roughly once per
+sentence---so that every next sentence is chosen against a fresh prediction of how the reader
+reacts. We give this hypothesis its first direct test. We generate 60 audience-targeted writing
+tasks under four conditions---plain generation, generic step-by-step reasoning (a token-matched
+control), one-shot audience modeling (\simtom), and the proposed per-sentence audience
+simulation---and evaluate them with two separate, cross-family judge models: one role-plays the
+target reader to rate audience fit, the other scores overall writing quality via blind,
+order-balanced pairwise comparison. Across paired significance tests, effect sizes, and
+Holm correction, the specific hypothesis is refuted while its underlying intuition is vindicated.
+Modeling the reader does help: a single rich audience model written once up front is the best
+condition on every metric---audience fit, engagement, genuine audience adaptation, and prose
+diversity---at lower cost. Per-sentence simulation is the worst or near-worst condition: it loses
+pairwise on overall quality to all three baselines (win-rates $0.08$--$0.25$, all $p < 0.001$),
+adapts \emph{less} to the reader rather than more, does not reduce homogenization, and is the
+longest and most token-expensive. The result replicates across two generator families. The
+lesson is about granularity: think about the reader once, deeply---not reactively, sentence by
+sentence.

@@ -1,0 +1,49 @@
+\documentclass{article}
+\usepackage[main,final]{neurips_2025}  % NEURIPS style (neurips_2025.sty is in paper_draft/)
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[hidelinks]{hyperref}  % REQUIRED: clickable links
+\usepackage{url}
+\usepackage{booktabs}  % REQUIRED: professional tables
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+\usepackage{subcaption}
+\usepackage{enumitem}
+\usepackage{multirow}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+
+% Import command files
+\input{commands/math}
+\input{commands/general}
+\input{commands/macros}
+
+\captionsetup[table]{aboveskip=4pt,belowskip=4pt}
+\captionsetup[figure]{aboveskip=4pt,belowskip=4pt}
+
+\bibliographystyle{plainnat}
+
+\title{Think About the Reader Once, Not Every Sentence:\\
+Per-Sentence Audience Simulation in Chain-of-Thought Hurts LLM Writing}
+
+\author{Ari Holtzman and NeuriCo}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+\input{sections/abstract}
+\end{abstract}
+
+\input{sections/introduction}
+\input{sections/related_work}
+\input{sections/methodology}
+\input{sections/results}
+\input{sections/discussion}
+\input{sections/conclusion}
+
+\bibliography{references}
+
+\end{document}

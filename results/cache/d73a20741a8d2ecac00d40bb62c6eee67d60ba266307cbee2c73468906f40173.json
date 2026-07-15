@@ -1,0 +1,1 @@
+{"content": "```json\n{\n  \"winner\": \"B\",\n  \"reason\": \"Piece B uses more precise terminology like 'epitopes,' 'MHC molecules,' 'class switching,' and 'adjuvants,' and references 'recent studies' and 'immunotherapies,' which aligns better with a PhD-level expert seeking depth and current research context.\"\n}\n```", "model": "google/gemini-2.5-flash", "temperature": 0.0}

@@ -1,0 +1,50 @@
+\section{Related Work}
+\label{sec:related}
+
+\para{Audience-aware generation and pragmatics.} The Rational Speech Acts tradition models a
+speaker who chooses each utterance by simulating how a listener will interpret it relative to
+alternatives~\citep{andreas2016reasoning,fried2023pragmatics}. \citet{andreas2016reasoning} sample
+candidate descriptions and rerank them with a simulated listener, gaining accuracy while a small
+fluency weight keeps language natural; notably, the reranking reasoning did not distill into a
+feedforward network, suggesting explicit inference-time reasoning matters. \citet{takmaz2023speaking}
+steer a frozen speaker at decode time with a listener simulator, and find that modeling a
+\emph{specific} reader (audience-aware) beats modeling a generic one (self-aware), which beats no
+modeling at all. \citet{coderesa2025} reverse-generate what an audience thinks a program does and
+rerank for distinctiveness, and \citet{crsa2025} maintain a formal per-turn belief over a
+listener's private state, gaining most when that belief is genuinely uncertain.
+\citet{styleinfusion2023} treat audience preference as an external reward. Across all of these,
+audience modeling lives \emph{outside} the generator's own reasoning---as a gradient, a reranker,
+a reward, or a belief-update module. Unlike these methods, we place audience modeling
+\emph{inside} the generator's natural-language chain-of-thought, and ask whether doing so
+per-sentence improves open-ended prose.
+
+\para{Per-sentence and reflective mental-state simulation.} A separate line applies incremental
+mental-state reasoning inside the model's own text. \citet{perceptom2024} prompt the model, per
+sentence, for who perceived each piece of content, filter to the target's perspective, and then
+answer, yielding large false-belief gains. \citet{thoughttracing2025} trace mental states with an
+incremental, hypothesis-driven agent, and \citet{tomagent2025} infer a partner's
+belief-desire-intention, predict their reply, and reflect. These are the closest method analogs to
+our intervention, but all target \emph{comprehension QA or dialogue}, where the goal is to answer
+a question about a mind, not to \emph{write well}. We port the per-sentence template to writing and
+find that what helps comprehension hurts prose.
+
+\para{Theory of Mind in LLMs, and the chain-of-thought caution.} Default LLM \tom is real but
+brittle, collapsing under trivial adversarial perturbations~\citep{ullman2023large,
+shapira2023clever}. Crucially, \citet{shapira2023clever} warn that chain-of-thought can inflate
+\tom scores through leaked task structure and shortcuts, so a positive result from an
+audience-simulation prompt must be checked against controls and a separate judge rather than taken
+at face value. Perspective-taking prompts such as \simtom already help \tom
+QA~\citep{tomsurvey2025}, and pragmatic competence grows across training
+stages~\citep{altprag2025}. We heed the caution directly: we judge only clean extracted text with
+judges in different families from the generator, and add an adaptation-gap control that rules out a
+generic-quality confound.
+
+\para{Writing quality and homogenization.} LLM prose is fluent but homogenized, and strong judges
+struggle to separate good writing from bad~\citep{homogenization2026}. Most relevant to us,
+\citet{chakrabarty2025aislop} show that generic chain-of-thought and reasoning models do
+\emph{not} improve writing quality, while span-level self-editing does. This makes our question
+sharp: if audience-specific reasoning helped writing, it would be a non-trivial exception to the
+``more reasoning does not help writing'' finding. Building on their testbed and the homogenization
+metrics of \citet{homogenization2026}, we measure quality, audience fit, adaptation, diversity,
+and cost together. Our result extends theirs: even audience-specific reasoning fails to help when
+applied at fine (per-sentence) granularity, whereas a coarse one-shot audience model does help.

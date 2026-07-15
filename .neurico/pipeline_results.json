@@ -1,0 +1,27 @@
+{
+  "success": true,
+  "stages": {
+    "resource_finder": {
+      "success": true,
+      "completion_marker": "/workspaces/llms_don_t_do_much_tom_in_writ_20260714_234243_6b6ff0f4/.resource_finder_complete",
+      "outputs": {
+        "literature_review": "/workspaces/llms_don_t_do_much_tom_in_writ_20260714_234243_6b6ff0f4/literature_review.md",
+        "resources_catalog": "/workspaces/llms_don_t_do_much_tom_in_writ_20260714_234243_6b6ff0f4/resources.md",
+        "papers_dir": "/workspaces/llms_don_t_do_much_tom_in_writ_20260714_234243_6b6ff0f4/papers",
+        "datasets_dir": "/workspaces/llms_don_t_do_much_tom_in_writ_20260714_234243_6b6ff0f4/datasets",
+        "code_dir": "/workspaces/llms_don_t_do_much_tom_in_writ_20260714_234243_6b6ff0f4/code"
+      },
+      "log_file": "/workspaces/llms_don_t_do_much_tom_in_writ_20260714_234243_6b6ff0f4/logs/resource_finder_claude.log",
+      "transcript_file": "/workspaces/llms_don_t_do_much_tom_in_writ_20260714_234243_6b6ff0f4/logs/resource_finder_claude_transcript.jsonl",
+      "elapsed_time": 940.6987452507019
+    },
+    "experiment_runner": {
+      "success": true,
+      "return_code": 0,
+      "elapsed_time": 2327.659969329834,
+      "log_file": "/workspaces/llms_don_t_do_much_tom_in_writ_20260714_234243_6b6ff0f4/logs/execution_claude.log",
+      "transcript_file": "/workspaces/llms_don_t_do_much_tom_in_writ_20260714_234243_6b6ff0f4/logs/execution_claude_transcript.jsonl"
+    }
+  },
+  "work_dir": "/workspaces/llms_don_t_do_much_tom_in_writ_20260714_234243_6b6ff0f4"
+}

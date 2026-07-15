@@ -1,0 +1,30 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+We gave the first direct test of a natural, appealing idea: that an LLM writes better if it
+simulates its reader in chain-of-thought roughly once per sentence. Across 60 audience-targeted
+tasks, four conditions, two cross-family judges, an adaptation-gap control, and a replication on a
+second generator, the answer is a clear \emph{no}. Per-sentence audience simulation makes writing
+\emph{worse} on quality, engagement, audience fit, adaptation, and diversity, while costing the
+most tokens: it loses pairwise on overall quality to plain generation, generic reasoning, and
+one-shot audience modeling alike (win-rates $0.083$--$0.250$, all $p<0.001$).
+
+\para{Key takeaway.} The deeper intuition survives: audience modeling does help writing, but its
+effective form is a \emph{single, rich audience model written once up front} (\simtom), which
+beats every alternative on every metric we measured, at lower cost. The lesson is about
+granularity---think about the reader once, deeply, not reactively sentence by sentence. Re-modeling
+the reader every sentence makes the model locally reactive and strips away the global voice, arc,
+and craft that make prose good.
+
+\para{Future work.} Four directions follow naturally. (1) A \emph{granularity sweep}---once,
+per-paragraph, per-sentence---to map where audience reasoning stops helping and starts fragmenting
+the prose. (2) \emph{\simtom plus one revision pass} (``re-read as the reader, fix what jars''),
+likely the practical sweet spot, pairing the winning one-shot model with a single global critique.
+(3) \emph{Human evaluation} on the \simtom-vs-\plain and \persentence-vs-\simtom contrasts. (4)
+\emph{Long-form} documents, where the global-consistency costs of per-sentence tracking may differ.
+An open question is whether per-sentence simulation's failure is fundamental---local optimization
+losing global structure---or an artifact of doing it \emph{before} writing rather than as
+\emph{revision}; direction (2) would distinguish these.
+
+\para{Reproducibility.} All $3{,}876$ cached generations and judgments, the four figures, and the
+summary statistics are released so the full pipeline can be re-run for free.

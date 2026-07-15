@@ -1,0 +1,1 @@
+{"content": "```json\n{\n  \"winner\": \"B\",\n  \"reason\": \"Piece B delves into more advanced concepts like public-key cryptography, key exchange, PKI, and homomorphic encryption, which are more relevant to a PhD-level expert seeking depth, while Piece A largely reiterates fundamental principles.\"\n}\n```", "model": "google/gemini-2.5-flash", "temperature": 0.0}
